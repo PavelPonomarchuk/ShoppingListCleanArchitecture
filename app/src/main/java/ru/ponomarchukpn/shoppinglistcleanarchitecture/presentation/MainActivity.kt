@@ -1,7 +1,8 @@
-package ru.ponomarchukpn.shoppinglistcleanarchitecture
+package ru.ponomarchukpn.shoppinglistcleanarchitecture.presentation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import ru.ponomarchukpn.shoppinglistcleanarchitecture.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
