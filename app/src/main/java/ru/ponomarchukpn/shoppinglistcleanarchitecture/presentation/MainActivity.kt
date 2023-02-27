@@ -2,6 +2,7 @@ package ru.ponomarchukpn.shoppinglistcleanarchitecture.presentation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import ru.ponomarchukpn.shoppinglistcleanarchitecture.R
@@ -35,5 +36,12 @@ class MainActivity : AppCompatActivity() {
             ShopListAdapter.TYPE_DISABLED,
             ShopListAdapter.MAX_POOL_SIZE
         )
+
+        adapter.onShopItemLongClickListener = {
+            viewModel.changeEnableState(it)
+        }
+        adapter.onShopItemClickListener = {
+            Log.d("SHOP_ITEM_CLICK_TEST", it.toString())
+        }
     }
 }
