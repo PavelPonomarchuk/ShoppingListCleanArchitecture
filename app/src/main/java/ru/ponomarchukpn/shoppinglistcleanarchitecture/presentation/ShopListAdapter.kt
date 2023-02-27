@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import ru.ponomarchukpn.shoppinglistcleanarchitecture.R
@@ -17,6 +16,9 @@ class ShopListAdapter : Adapter<ShopListAdapter.ShopItemViewHolder>() {
             field = value
             notifyDataSetChanged()
         }
+
+    var onShopItemLongClickListener: ((ShopItem) -> Unit)? = null
+    var onShopItemClickListener: ((ShopItem) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShopItemViewHolder {
         val layout = when (viewType) {
@@ -34,8 +36,11 @@ class ShopListAdapter : Adapter<ShopListAdapter.ShopItemViewHolder>() {
         viewHolder.tvCount.text = shopItem.count.toString()
 
         viewHolder.view.setOnLongClickListener {
-            //заготовка
+            onShopItemLongClickListener?.invoke(shopItem)
             true
+        }
+        viewHolder.view.setOnClickListener {
+            onShopItemClickListener?.invoke(shopItem)
         }
     }
 
