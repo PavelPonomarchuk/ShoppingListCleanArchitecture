@@ -1,22 +1,14 @@
 package ru.ponomarchukpn.shoppinglistcleanarchitecture.presentation
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.Adapter
+import androidx.recyclerview.widget.ListAdapter
 import ru.ponomarchukpn.shoppinglistcleanarchitecture.R
 import ru.ponomarchukpn.shoppinglistcleanarchitecture.domain.ShopItem
 
-class ShopListAdapter : Adapter<ShopListAdapter.ShopItemViewHolder>() {
-
-    var shopList = listOf<ShopItem>()
-        set(value) {
-            field = value
-            notifyDataSetChanged()
-        }
-
+class ShopListAdapter : ListAdapter<ShopItem, ShopItemViewHolder> (
+    ShopItemDiffCallback()
+) {
     var onShopItemLongClickListener: ((ShopItem) -> Unit)? = null
     var onShopItemClickListener: ((ShopItem) -> Unit)? = null
 
@@ -31,7 +23,7 @@ class ShopListAdapter : Adapter<ShopListAdapter.ShopItemViewHolder>() {
     }
 
     override fun onBindViewHolder(viewHolder: ShopItemViewHolder, position: Int) {
-        val shopItem = shopList[position]
+        val shopItem = getItem(position)
         viewHolder.tvName.text = shopItem.name
         viewHolder.tvCount.text = shopItem.count.toString()
 
@@ -44,16 +36,9 @@ class ShopListAdapter : Adapter<ShopListAdapter.ShopItemViewHolder>() {
         }
     }
 
-    override fun getItemCount() = shopList.size
-
     override fun getItemViewType(position: Int): Int {
-        val shopItem = shopList[position]
+        val shopItem = getItem(position)
         return if (shopItem.enabled) TYPE_ENABLED else TYPE_DISABLED
-    }
-
-    class ShopItemViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-        val tvName: TextView = view.findViewById(R.id.tv_name)
-        val tvCount: TextView = view.findViewById(R.id.tv_count)
     }
 
     companion object {
